@@ -1,0 +1,22 @@
+{
+  "name": "nugu-lol-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Napping9100/Nugu-LOL-Project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Napping9100/Nugu-LOL-Project/issues"
+  },
+  "homepage": "https://github.com/Napping9100/Nugu-LOL-Project#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
