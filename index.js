@@ -1,8 +1,5 @@
-var express = require('express')
-var app = express()
+const controller = require('./Controller.js');
 
-app.get('/', function (req, res) {
-	res.send('Hello World')
-})
+controller.start();
 
-app.listen(3000)
+console.log('Server running');
