@@ -9,6 +9,7 @@ app.use(express.json());
 class Controller {
 	constructor() {
 		app.get('/', this.hello.bind(this));
+		app.get('/health', this.hello.bind(this));
 
 	  app.post('/myTier', this.myTier.bind(this));
 		app.get('/test/myTier', this.myTierTest.bind(this));
@@ -22,7 +23,7 @@ class Controller {
 	}
 
 	hello(req, res) {
-		res.send('Hello, World!\n');
+		res.send('OK\n');
 	}
 
 	// myTier
