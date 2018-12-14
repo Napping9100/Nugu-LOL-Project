@@ -4,6 +4,7 @@ const app = express();
 const generalService = require('./GeneralService.js');
 const riotService = require('./RiotService.js');
 const opggService = require('./OpggService.js');
+const btggService = require('./BtggService.js');
 
 app.use(express.json());
 
@@ -45,6 +46,11 @@ class Controller {
 		app.get('/test/recommendCounterChampionByChampion', this.recommendCounterChampionByChampionTest.bind(this));
 		app.get('/test/recommendSkillByChampion', this.recommendSkillByChampionTest.bind(this));
 		app.get('/test/recommendRuneByChampion', this.recommendRuneByChampionTest.bind(this));
+
+		// BTGG Services
+		app.post('/esportsResultsByTeamName', this.esportsResultsByTeamName.bind(this));
+
+		app.get('/test/esportsResultsByTeamName', this.esportsResultsByTeamNameTest.bind(this));
 	}
 
 	start() {
@@ -459,6 +465,45 @@ class Controller {
 		generalService.getTestRequest('recommendRuneByChampion', parameters).then(reqObj => {
 			req.body = reqObj;
 			this.recommendRuneByChampion(req, res);
+		});
+	}
+
+	/*--------------------------- BTGG Services ----------------------------*/
+	// esportsResultsByTeamName
+  esportsResultsByTeamName(req, res) {
+		generalService.getParameters(req.body).then(parameters => {
+			return Promise.all([parameters, btggService.esportsResultsByTeamName(parameters.pro_team_name_ertn.value)])
+		}).then(([parameters, result]) => {
+			let output= {
+				'pro_team_name_ertn': parameters.pro_team_name_ertn.value,
+
+			  'opponent_team_1_ertn': result[0][1][0],
+				'our_team_score_1_ertn': result[0][0][1],
+				'opponent_team_score_1_ertn': result[0][1][1],
+				'result_1_ertn': result[0][2],
+
+			  'opponent_team_2_ertn': result[1][1][0],
+				'our_team_score_2_ertn': result[1][0][1],
+				'opponent_team_score_2_ertn': result[1][1][1],
+				'result_2_ertn': result[1][2]
+			}
+			return generalService.getResponse(output);
+		}).then(resObj => {
+			res.json(resObj);	
+		});
+	}	
+
+	esportsResultsByTeamNameTest(req, res) {
+		let parameters = {
+			'pro_team_name_ertn': {
+				'type': 'PRO_TEAM',
+				'value': '에스케이티'
+			}
+		};
+
+		generalService.getTestRequest('esportsResultsByTeamName', parameters).then(reqObj => {
+			req.body = reqObj;
+			this.esportsResultsByTeamName(req, res);
 		});
 	}
 }
