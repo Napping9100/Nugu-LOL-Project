@@ -10,8 +10,11 @@ app.use(express.json());
 
 class Controller {
 	constructor() {
+		// General Services
 		app.get('/', this.hello.bind(this));
 		app.get('/health', this.hello.bind(this));
+		app.get('/test/getUserName', this.getUserName.bind(this));
+		app.get('/test/setUserName/:userName', this.setUserName.bind(this));
 
 		// RIOT Services
 		app.post('/myTier', this.myTier.bind(this));
@@ -57,8 +60,21 @@ class Controller {
 		app.listen(3000, () => console.log('Controller is running on port 3000'));
 	}
 
+	/*--------------------------- General Services ----------------------------*/
 	hello(req, res) {
 		res.send('OK\n');
+	}
+
+	getUserName(req, res) {
+		generalService.getUserName().then(userName => {
+			res.json(userName);
+		});
+	}
+
+	setUserName(req, res) {
+		generalService.setUserName(req.params.userName).then(() => {
+			res.json(req.params.userName);	
+		})
 	}
 
 	/*--------------------------- RIOT Services ----------------------------*/

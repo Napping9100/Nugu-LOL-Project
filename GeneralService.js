@@ -30,6 +30,10 @@ class GeneralService {
 	async getUserName() {
 		return this.userName;
 	}
+
+	async setUserName(userName) {
+		this.userName = userName;
+	}
 }
 
 module.exports = new GeneralService();
