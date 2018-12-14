@@ -1,6 +1,6 @@
 const request = require('request');
 
-const TEAM_DICT = {'우리팀': {100: 100, 200: 200}, '상대팀': {100: 200, 200: 100}};
+const TEAM_DICT = {'우리 팀': {100: 100, 200: 200}, '상대 팀': {100: 200, 200: 100}};
 const CHAMPION_DICT = {
 	'가렌': 86, '갈리오': 3, '갱플랭크': 41, '그라가스': 79, '그레이브즈': 104, '나르': 150, '나미': 267, '나서스': 75, '노틸러스': 111, '녹턴': 56,
 	'누누와 윌럼프': 20, '니달리': 76, '니코': 518, '다리우스': 122, '다이애나': 131, '드레이븐': 119, '라이즈': 13, '라칸': 497, '람머스': 33, '럭스': 99,
@@ -309,7 +309,7 @@ class RiotService {
 		if (summonerId) {
 			answer = ['소환사님이 현재 게임 중이지 않습니다.'];
 
-			let summonerNameByChampion = await getSummonerNameByChampion(summonerId, team, champion);
+			let summonerNameByChampion = await this.getSummonerNameByChampion(summonerId, team, champion);
 
 			if (summonerNameByChampion)
 				answer = await answerTier(summonerNameByChampion);
@@ -325,7 +325,7 @@ class RiotService {
 		if (summonerId) {
 			answer = ['소환사님이 현재 게임 중이지 않습니다.'];
 
-			let summonerNameByChampion = await getSummonerNameByChampion(summonerId, team, champion);
+			let summonerNameByChampion = await this.getSummonerNameByChampion(summonerId, team, champion);
 
 			if (summonerNameByChampion)
 				answer = await answerWinRate(summonerNameByChampion);
@@ -341,7 +341,7 @@ class RiotService {
 		if (summonerId) {
 			answer = ['소환사님이 현재 게임 중이지 않습니다.'];
 
-			let summonerNameByChampion = await getSummonerNameByChampion(summonerId, team, champion);
+			let summonerNameByChampion = await this.getSummonerNameByChampion(summonerId, team, champion);
 
 			if (summonerNameByChampion)
 				answer = await answerRecentChampionWinRate(summonerNameByChampion, champion);
@@ -357,7 +357,7 @@ class RiotService {
 		if (summonerId) {
 			answer = ['소환사님이 현재 게임 중이지 않습니다.'];
 
-			let summonerNameByChampion = await getSummonerNameByChampion(summonerId, team, champion);
+			let summonerNameByChampion = await this.getSummonerNameByChampion(summonerId, team, champion);
 
 			if (summonerNameByChampion)
 				answer = await answerChampionMastery(summonerNameByChampion, champion);
