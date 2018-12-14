@@ -33,15 +33,15 @@ class OpggService {
 
 		return new Promise(resolve => {
 			request(options, (err, res, body) => {
-				var answer = ['정보를 읽어올 수 없습니다. 잠시 후에 다시 시도해주세요.'];
+				let answer = ['정보를 읽어올 수 없습니다. 잠시 후에 다시 시도해주세요.'];
 
 				if (res.statusCode == 200) {
 					const $ = cheerio.load(body);
 
-					var champions = '';
-					$('.champion-trend-tier-' + LINE_DICT[line]).find('.champion-index-table__name').each(function (i, elem) {
+					let champions = '';
+					$('.champion-trend-tier-' + LINE_DICT[line]).find('.champion-index-table__name').each((i, elem) => {
 						if (i < this.NUM_RECOMMEND_CHAMPIONS)
-							champions += ' ' + $(this).text().trim();
+							champions += ' ' + $(elem).text().trim();
 					});
 
 					answer = [line, champions];
@@ -60,14 +60,14 @@ class OpggService {
 
 		return new Promise(resolve => {
 			request(options, (err, res, body) => {
-				var answer = ['정보를 읽어올 수 없습니다. 잠시 후에 다시 시도해주세요.'];
+				let answer = ['정보를 읽어올 수 없습니다. 잠시 후에 다시 시도해주세요.'];
 
 				if (res.statusCode == 200) {
 					const $ = cheerio.load(body);
 
-					var champions = '';
-					$('.champion-stats-header-matchup__table--strong').find('.champion-stats-header-matchup__table__champion').each(function (i, elem) {
-						champions += ' ' + $(this).text().trim();
+					let champions = '';
+					$('.champion-stats-header-matchup__table--strong').find('.champion-stats-header-matchup__table__champion').each((i, elem) => {
+						champions += ' ' + $(elem).text().trim();
 					});
 
 					answer = [champion, champions];
@@ -86,14 +86,14 @@ class OpggService {
 
 		return new Promise(resolve => {
 			request(options, (err, res, body) => {
-				var answer = ['정보를 읽어올 수 없습니다. 잠시 후에 다시 시도해주세요.'];
+				let answer = ['정보를 읽어올 수 없습니다. 잠시 후에 다시 시도해주세요.'];
 
 				if (res.statusCode == 200) {
 					const $ = cheerio.load(body);
 
-					var skills = '';
-					$('.champion-stats__list').find('span').each(function (i, elem) {
-						skills += ' ' + $(this).text();
+					let skills = '';
+					$('.champion-stats__list').find('span').each((i, elem) => {
+						skills += ' ' + $(elem).text();
 					});
 
 					answer = [champion, skills];
@@ -112,15 +112,15 @@ class OpggService {
 
 		return new Promise(resolve => {
 			request(options, (err, res, body) => {
-				var answer = ['정보를 읽어올 수 없습니다. 잠시 후에 다시 시도해주세요.'];
+				let answer = ['정보를 읽어올 수 없습니다. 잠시 후에 다시 시도해주세요.'];
 
 				if (res.statusCode == 200) {
 					const $ = cheerio.load(body);
 
-					var rune = '';
-					$('.ChampionKeystoneRune-1').find('.perk-page__item--keystone').each(function (i, elem) {
-						if (i < 3 && $(this).hasClass('perk-page__item--active'))
-							rune += $(this).find('img').attr('alt');
+					let rune = '';
+					$('.ChampionKeystoneRune-1').find('.perk-page__item--keystone').each((i, elem) => {
+						if (i < 3 && $(elem).hasClass('perk-page__item--active'))
+							rune += $(elem).find('img').attr('alt');
 					});
 
 					answer = [champion, rune];

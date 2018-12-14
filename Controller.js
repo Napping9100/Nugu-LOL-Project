@@ -3,6 +3,7 @@ const app = express();
 
 const generalService = require('./GeneralService.js');
 const riotService = require('./RiotService.js');
+const opggService = require('./OpggService.js');
 
 app.use(express.json());
 
@@ -11,6 +12,7 @@ class Controller {
 		app.get('/', this.hello.bind(this));
 		app.get('/health', this.hello.bind(this));
 
+		// RIOT Services
 		app.post('/myTier', this.myTier.bind(this));
 		app.post('/myWinRate', this.myWinRate.bind(this));
 		app.post('/myTodayWinRate', this.myTodayWinRate.bind(this));
@@ -32,6 +34,17 @@ class Controller {
 		app.get('/test/winRateByChampion', this.winRateByChampionTest.bind(this));
 		app.get('/test/recentChampionWinRateByChampion', this.recentChampionWinRateByChampionTest.bind(this));
 		app.get('/test/championMasteryByChampion', this.championMasteryByChampionTest.bind(this));
+
+		// OPGG Services
+		app.post('/recommendChampionByLine', this.recommendChampionByLine.bind(this));
+		app.post('/recommendCounterChampionByChampion', this.recommendCounterChampionByChampion.bind(this));
+		app.post('/recommendSkillByChampion', this.recommendSkillByChampion.bind(this));
+		app.post('/recommendRuneByChampion', this.recommendRuneByChampion.bind(this));
+
+		app.get('/test/recommendChampionByLine', this.recommendChampionByLineTest.bind(this));
+		app.get('/test/recommendCounterChampionByChampion', this.recommendCounterChampionByChampionTest.bind(this));
+		app.get('/test/recommendSkillByChampion', this.recommendSkillByChampionTest.bind(this));
+		app.get('/test/recommendRuneByChampion', this.recommendRuneByChampionTest.bind(this));
 	}
 
 	start() {
@@ -42,6 +55,7 @@ class Controller {
 		res.send('OK\n');
 	}
 
+	/*--------------------------- RIOT Services ----------------------------*/
 	// myTier
 	myTier(req, res) {
 		generalService.getUserName().then(userName => {
@@ -328,6 +342,123 @@ class Controller {
 		generalService.getTestRequest('championMasteryByChampion', parameters).then(reqObj => {
 			req.body = reqObj;
 			this.championMasteryByChampion(req, res);
+		});
+	}
+
+	/*--------------------------- OPGG Services ----------------------------*/
+	// recommendChampionByLine
+	recommendChampionByLine(req, res) {
+		generalService.getParameters(req.body).then(parameters => {
+			return opggService.recommendChampionByLine(parameters.role_rcl.value)
+		}).then(recommend => {
+			let output = {
+				'role_rcl': recommend[0],
+				'champion_rcl': recommend[1]
+			};
+			return generalService.getResponse(output);
+		}).then(resObj => {
+			res.json(resObj);	
+		});
+	}
+
+	recommendChampionByLineTest(req, res) {
+		let parameters = {
+			'role_rcl': {
+				'type': 'ROLE',
+				'value': '미드'
+			}	
+		};
+
+		generalService.getTestRequest('recommendChampionByLine', parameters).then(reqObj => {
+			req.body = reqObj;
+			this.recommendChampionByLine(req, res);
+		});
+	}
+
+	// recommendCounterChampionByChampion
+	recommendCounterChampionByChampion(req, res) {
+		generalService.getParameters(req.body).then(parameters => {
+			return opggService.recommendCounterChampionByChampion(parameters.champion_rccc.value)
+		}).then(recommend => {
+			let output = {
+				'champion_rccc': recommend[0],
+				'champions_rccc': recommend[1]
+			};
+			return generalService.getResponse(output);
+		}).then(resObj => {
+			res.json(resObj);	
+		});
+	}
+
+	recommendCounterChampionByChampionTest(req, res) {
+		let parameters = {
+			'champion_rccc': {
+				'type': 'CHAMPION',
+				'value': '가렌'
+			}	
+		};
+
+		generalService.getTestRequest('recommendCounterChampionByChampion', parameters).then(reqObj => {
+			req.body = reqObj;
+			this.recommendCounterChampionByChampion(req, res);
+		});
+	}
+
+	//recommendSkillByChampion
+	recommendSkillByChampion(req, res) {
+		generalService.getParameters(req.body).then(parameters => {
+			return opggService.recommendSkillByChampion(parameters.champion_rsc.value)
+		}).then(recommend => {
+			let output = {
+				'champion_rsc': recommend[0],
+				'skill_order_rsc': recommend[1]
+			};
+			return generalService.getResponse(output);
+		}).then(resObj => {
+			res.json(resObj);	
+		});
+	}
+
+	recommendSkillByChampionTest(req, res) {
+		let parameters = {
+			'champion_rsc': {
+				'type': 'CHAMPION',
+				'value': '가렌'
+			}	
+		};
+
+		generalService.getTestRequest('recommendSkillByChampion', parameters).then(reqObj => {
+			req.body = reqObj;
+			this.recommendSkillByChampion(req, res);
+		});
+	}
+
+	//recommendRuneByChampion
+	recommendRuneByChampion(req, res) {
+		generalService.getParameters(req.body).then(parameters => {
+			return opggService.recommendRuneByChampion(parameters.champion_rrc.value)
+		}).then(recommend => {
+			let output = {
+				'champion_rrc': recommend[0],
+				'rune_rsc': recommend[1]
+			};
+			return generalService.getResponse(output);
+		}).then(resObj => {
+			res.json(resObj);	
+		});
+	}
+
+	recommendRuneByChampionTest(req, res) {
+		let parameters = {
+			'champion_rrc': {
+				'type': 'CHAMPION',
+				'value': '조이'
+			}	
+		};
+
+		generalService.getTestRequest('recommendRuneByChampion', parameters).then(reqObj => {
+			req.body = reqObj;
+			this.recommendRuneByChampion(req, res);
 		});
 	}
 }
