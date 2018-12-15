@@ -26,7 +26,7 @@ const RANK_DICT = { 'I': '1', 'II': '2', 'III': '3', 'IV': '4', 'V': '5' };
 
 class RiotService {
 	constructor() {
-		this.API_KEY = 'RGAPI-4e2b89d8-957c-4d2b-96b9-1cd1dfcb68bb';
+		this.API_KEY = 'RGAPI-01b24dbc-6dcf-4537-85a6-9702ecf12675';
 		this.NUM_RECENT_GAMES = 15;
 	}
 
