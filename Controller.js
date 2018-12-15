@@ -34,10 +34,10 @@ class Controller {
 		app.get('/test/myRecentWinRate', this.myRecentWinRateTest.bind(this));
 		app.get('/test/myRecentChampionWinRate', this.myRecentChampionWinRateTest.bind(this));
 		app.get('/test/myChampionMastery', this.myChampionMasteryTest.bind(this));
-		app.get('/test/tierByChampion', this.tierByChampionTest.bind(this));
-		app.get('/test/winRateByChampion', this.winRateByChampionTest.bind(this));
-		app.get('/test/recentChampionWinRateByChampion', this.recentChampionWinRateByChampionTest.bind(this));
-		app.get('/test/championMasteryByChampion', this.championMasteryByChampionTest.bind(this));
+		app.get('/test/tierByChampion/:champion', this.tierByChampionTest.bind(this));
+		app.get('/test/winRateByChampion/:champion', this.winRateByChampionTest.bind(this));
+		app.get('/test/recentChampionWinRateByChampion/:champion', this.recentChampionWinRateByChampionTest.bind(this));
+		app.get('/test/championMasteryByChampion/:champion', this.championMasteryByChampionTest.bind(this));
 
 		// OPGG Services
 		app.post('/recommendChampionByLine', this.recommendChampionByLine.bind(this));
@@ -250,11 +250,11 @@ class Controller {
 		let parameters = {
 			'champion_tc': {
 				'type': 'CHAMPION',
-				'value': '아리'
+				'value': req.params.champion || "아리"
 			},
 			'team_tc': {
 				'type': 'TEAM',
-				'value': '우리팀'
+				'value': '우리 팀'
 			}
 		};
 
@@ -285,11 +285,11 @@ class Controller {
 		let parameters = {
 			'champion_wrc': {
 				'type': 'CHAMPION',
-				'value': '아리'
+				'value': req.params.champion || "아리"
 			},
 			'team_wrc': {
 				'type': 'TEAM',
-				'value': '우리팀'
+				'value': '우리 팀'
 			}
 		};
 
@@ -319,11 +319,11 @@ class Controller {
 		let parameters = {
 			'champion_rcwrc': {
 				'type': 'CHAMPION',
-				'value': '아리'
+				'value': req.params.champion || "아리"
 			},
 			'team_rcwrc': {
 				'type': 'TEAM',
-				'value': '우리팀'
+				'value': '우리 팀'
 			}
 		};
 
@@ -353,11 +353,11 @@ class Controller {
 		let parameters = {
 			'champion_cmc': {
 				'type': 'CHAMPION',
-				'value': '아리'
+				'value': req.params.champion || "아리"
 			},
 			'team_cmc': {
 				'type': 'TEAM',
-				'value': '우리팀'
+				'value': '우리 팀'
 			}
 		};
 
