@@ -462,7 +462,7 @@ class Controller {
 		}).then(recommend => {
 			let output = {
 				'champion_rrc': recommend[0],
-				'rune_rsc': recommend[1]
+				'rune_rrc': recommend[1]
 			};
 			return generalService.getResponse(output);
 		}).then(resObj => {
