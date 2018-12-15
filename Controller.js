@@ -51,9 +51,15 @@ class Controller {
 		app.get('/test/recommendRuneByChampion', this.recommendRuneByChampionTest.bind(this));
 
 		// BTGG Services
+		app.post('/proteamToRank', this.proteamToRank.bind(this));
+		app.post('/rankToProteam', this.rankToProteam.bind(this));
 		app.post('/esportsResultsByTeamName', this.esportsResultsByTeamName.bind(this));
+		app.post('/recentEsportsResults', this.recentEsportsResults.bind(this));
 
+		app.get('/test/proteamToRank', this.proteamToRankTest.bind(this));
+		app.get('/test/rankToProteam', this.rankToProteamTest.bind(this));
 		app.get('/test/esportsResultsByTeamName', this.esportsResultsByTeamNameTest.bind(this));
+		app.get('/test/recentEsportsResults', this.recentEsportsResultsTest.bind(this));
 	}
 
 	start() {
@@ -485,12 +491,70 @@ class Controller {
 	}
 
 	/*--------------------------- BTGG Services ----------------------------*/
+	// proteamToRank
+	proteamToRank(req, res) {
+		generalService.getParameters(req.body).then(parameters => {
+			return btggService.proteamToRank(parameters.pro_team_name_ptr.value);
+		}).then(result => {
+			let output =	{
+				'pro_team_name_ptr': result[0],
+				'rank_ptr': result[1]
+			};
+			return generalService.getResponse(output);
+		}).then(resObj => {
+			res.json(resObj);	
+		});
+	}
+
+	proteamToRankTest(req, res) {
+		let parameters = {
+			'pro_team_name_ptr': {
+				'type': 'PRO_TEAM',
+				'value': '킹존'
+			}
+		}
+
+		generalService.getTestRequest('proteamToRank', parameters).then(reqObj => {
+			req.body = reqObj;
+			this.proteamToRank(req, res);
+		});
+	}
+
+	// rankToProteam
+	rankToProteam(req, res) {
+		generalService.getParameters(req.body).then(parameters => {
+			return btggService.rankToProteam(parameters.rank_rtp.value);
+		}).then(result => {
+			let output =	{
+				'rank_rtp': result[0],
+				'pro_team_name_rtp': result[1]
+			};
+			return generalService.getResponse(output);
+		}).then(resObj => {
+			res.json(resObj);	
+		});
+	}
+
+	rankToProteamTest(req, res) {
+		let parameters = {
+			'rank_rtp': {
+				'type': 'RANK',
+				'value': '삼등'
+			}
+		}
+
+		generalService.getTestRequest('rankToProteam', parameters).then(reqObj => {
+			req.body = reqObj;
+			this.rankToProteam(req, res);
+		});
+	}
+	
 	// esportsResultsByTeamName
   esportsResultsByTeamName(req, res) {
 		generalService.getParameters(req.body).then(parameters => {
 			return Promise.all([parameters, btggService.esportsResultsByTeamName(parameters.pro_team_name_ertn.value)])
 		}).then(([parameters, result]) => {
-			let output= {
+			let output = {
 				'pro_team_name_ertn': parameters.pro_team_name_ertn.value,
 
 			  'opponent_team_1_ertn': result[0][1][0],
@@ -520,6 +584,38 @@ class Controller {
 		generalService.getTestRequest('esportsResultsByTeamName', parameters).then(reqObj => {
 			req.body = reqObj;
 			this.esportsResultsByTeamName(req, res);
+		});
+	}
+
+	// recentEsportsResults
+	recentEsportsResults(req, res) {
+		btggService.recentEsportsResults().then(result => {
+			let output = {
+				'game_1_data_rer': result[0][0],
+				'game_1_team_name_1_rer': result[0][1],
+				'game_1_team_name_2_rer': result[0][2],
+				'game_1_team_score_1_rer': result[0][3],
+				'game_1_team_score_2_rer': result[0][4],
+				'geme_1_winner_rer': result[0][5],
+				'game_2_data_rer': result[1][0],
+				'game_2_team_name_1_rer': result[1][1],
+				'game_2_team_name_2_rer': result[1][2],
+				'game_2_team_score_1_rer': result[1][3],
+				'game_2_team_score_2_rer': result[1][4],
+				'geme_2_winner_rer': result[1][5],
+			}
+			return generalService.getResponse(output);
+		}).then(resObj => {
+			res.json(resObj);	
+		});
+	}	
+
+	recentEsportsResultsTest(req, res) {
+		let parameters = {};
+
+		generalService.getTestRequest('recentEsportsResults', parameters).then(reqObj => {
+			req.body = reqObj;
+			this.recentEsportsResults(req, res);
 		});
 	}
 }
