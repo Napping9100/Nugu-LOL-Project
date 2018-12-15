@@ -375,7 +375,7 @@ class Controller {
 		}).then(recommend => {
 			let output = {
 				'role_rcl': recommend[0],
-				'champion_rcl': recommend[1]
+				'champions_rcl': recommend[1]
 			};
 			return generalService.getResponse(output);
 		}).then(resObj => {
