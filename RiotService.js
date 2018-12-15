@@ -312,7 +312,7 @@ class RiotService {
 			let summonerNameByChampion = await this.getSummonerNameByChampion(summonerId, team, champion);
 
 			if (summonerNameByChampion)
-				answer = await answerTier(summonerNameByChampion);
+				answer = await this.answerTier(summonerNameByChampion);
 		}
 
 		return answer;
@@ -328,7 +328,7 @@ class RiotService {
 			let summonerNameByChampion = await this.getSummonerNameByChampion(summonerId, team, champion);
 
 			if (summonerNameByChampion)
-				answer = await answerWinRate(summonerNameByChampion);
+				answer = await this.answerWinRate(summonerNameByChampion);
 		}
 
 		return answer;
@@ -344,7 +344,7 @@ class RiotService {
 			let summonerNameByChampion = await this.getSummonerNameByChampion(summonerId, team, champion);
 
 			if (summonerNameByChampion)
-				answer = await answerRecentChampionWinRate(summonerNameByChampion, champion);
+				answer = await this.answerRecentChampionWinRate(summonerNameByChampion, champion);
 		}
 
 		return answer;
@@ -360,7 +360,7 @@ class RiotService {
 			let summonerNameByChampion = await this.getSummonerNameByChampion(summonerId, team, champion);
 
 			if (summonerNameByChampion)
-				answer = await answerChampionMastery(summonerNameByChampion, champion);
+				answer = await this.answerChampionMastery(summonerNameByChampion, champion);
 		}
 
 		return answer;
